@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<title>Aho-Corasick Algorithm</title>
+	
+	<link rel="stylesheet" media="all" href="css/style.css" />
+	<link rel="stylesheet" href="css/bubbles.css">
+	 <link rel="stylesheet" href="css/animate.css">
+	 
+
+	
+	
+	<script src="scripts/respond.min.js"></script>
+	
+</head>
+
+<body>
+
+ 
+
+<div class="container row">
+	
+	<main role="main" class="row gutters">
+	
+		<article class="col span_4 animated slideInLeft">
+
+			 <span class="bubble x1"></span>  
+            <span class="bubble x3"></span>  
+            <span class="bubble x4"></span>  
+            <span class="bubble x5"></span> 
+            <span class="bubble x1" style="left:40px"></span>  
+            <span class="bubble x3" style="left:730px;"></span>  
+            <span class="bubble x4" style="left:900px;"></span>  
+            <span class="bubble x5" style="left:1020px;"></span>
+             <span class="bubble x3" style="left:1100px;"></span>  
+            <span class="bubble x4" style="left:600x;"></span>  
+
+			<h2 class="animated  animated slideInUp" data-wow-duration="12s"> Aho-Corasick Algorithm</h2>
+			<br>
+			<h3 class="animated flash"> Zulva Fachrina </h3>
+			<h3 class="animated flash"> 13513010 </h3>
+	
+		</article>
+	
+		<aside role="complimentary" class="col span_7" style="margin-left: 35%;">
+			  
+			
+			<p> String matching merupakan algoritma yang cukup sering digunakan dalam computer science. Biasanya, string matching berkaitan dengan fitur pencarian atau pencocokan dalam aplikasi. String matching merupakan algoritma yang melakukan pencarian lokasi dari sebuah atau sejumlah pattern yang terdapat pada sebuah text. Terdapat begitu banyak algoritma string matching yang sering digunakan. Salah satu algoritma string matching yang cukup simpel dan efisien untuk menemukan lokasi sejumlah kewords yang terbatas dalam sebuah text string adalah Algoritma Aho-Corasick. </p>
+
+
+			<p>Aho-Corasick merupakan algoritma string matching yang ditemukan oleh Alfred V.Aho dan Margaret J.Corasick. Pada prinsipnya, Aho-Corasick memanfaatkan finite state automata yang berbentuk seperti sebuah trie. Algoritma ini dapat disamakan seperti algoritma dictionary-matching yang mencari pattern dengan basis sub-string. Setiap karakter pada text ditelusuri sebagai sebuah input pada state automata, setiap karakter yang mencapai final state dicatatat sebagai pattern yang ditemukan. Karena itu, algoritma ini memiliki keuntungan yaitu dapat mencocokkan sejumlah string terbatas pada sebuah string text yang panjang hanya dengan sekali menelusuri automata machine. </p>
+
+			<p> Algoritma Aho-Corasick terdiri dari 2 bagian. Bagian pertama, seluruh keyword dikonstruksi menjadi sebuah finite state pattern matching machine. Pattern matching machine adalah sekumpulan state dimana masing-masing state direpresentasikan dengan angka. Sedangkan bagian kedua text string diimplementasikan sebagai masukan pada pattern matching machine. Machine akan memberitahu apakah ditemukan kesamaan pada keyword. Pengoperasian pada machine didasarkan pada 3 fungsi utama, yaitu goto function, failure function, dan output function. </p>
+
+			<p> Pertama-tama, perlu dibentuk pattern matching machine atau disebut juga keyword trie yang akan digunakan untuk melakukan string matching. Pattern machine merupakan representasi dari sekumpulan keyword yang ingin dicari dengan beberapa ketentuan:
+			<br> 1.	Masing-masing state/simpul direpresentasikan dengan angka yang berbeda
+			<br>2.	Masing-masing input/sisi diberi label dengan karakter pada keyword/pattern
+			<br>3.	Setiap input yang keluar dari sebuah state harus memiliki label yang berbeda
+			<br>4.	Untung setiap pattern P € P terdapat state w yang memenuhi L(w) = P, dimana L(w) adalah konkatenasi label dari state awal sampai ke state w
+			<br>5.	Untuk L(w) adalah konkatenasi label dari state awal sampai ke state w, label L(w) untuk state w sama dengan P € P  </p>
+
+			<p> Misalnya diketahui P adalah sekumpulan keyword P = {he, she, his, hers}, maka automata machine yang terbentuk adalah </p>
+
+			<p> <img src="img/AC1.png" alt="AC1"></p>
+
+			<p> Jalur dari state 0 sampai state 2 merepresentasikan output keyword “he”,  output dari jalur 0-6-7 menghasilkan “his”, 0-1-2-8-9 menghasilkan “hers”, dan jalur 0-3-4-5 menghasilkan “she”. Keyword-keyword yang diberikan seluruhnya sudah termuat di dalam machine. Jika diperhatikan, keyword “his” tidak membentuk state baru dari state 0, melainkan menggunakan state 1, karena jalur yang menuju state 1 sudah mengandung label “h” yang merupakan prefix dari kata “his”. Begitu pula dengan keyword “hers” yang pada jalurnya juga memuat keyword “he” karena “he” merupakan substring dari “hers”. </p>
+
+			<p> Setelah goto function terbentuk, maka tahapan selanjutnya adalah membuat failure function untuk menyempurnakan pattern machine. Failure function dikonstruksi dari goto function. Pertama-tama, kita definisikan depth (kedalaman) dari sebuah state adalah jarak terpendek dari akar ke state tersebut. Dengan begitu, state 0 memiliki depth 0, state 1 dan 3 memiliki depth 1, state 2,4,6 memiliki depth 2, dan seterusnya.</p>
+
+			<p> Untuk menentukan failure function harus ditentukan dari state dengan depth paling rendah, kemudian ke state dengan depth yang lebih tinggi secara berurutan. Jadi, untuk menentukan failure function untuk state dengan depth d, kita haru memperhatikan state r dari kedalaman d-1. Jika δ(r,a) merupakan teransisi dari state r dengan input a, maka terdapat beberapa ketentuan untuk membuat failure function:
+			<br>1.	Jika δ(r,a) = fail, untuk setiap a, tidak melakukan apapun
+			<br>2.	Jika untuk masing-masing a dari δ(r, a) = s, maka :
+			<br>a.	State diset dengan state = f(r)
+			<br>b.	Eksekusi state = f(state) terus-menerus untuk nilai state sampai δ(state, a) tidak lagi fail
+			<br>c.	f(s) diset dengan f(s)= δ(state,a) </p>
+
+			<p> Untuk state dengan depth 0 dan 1, seluruh failure functionnya diisi dengan 0, sehingga state 0,1,3 memiliki failure function bernilai 0. Kemudian akan dihitung failure function dari state dengan kedalaman 2, yaitu state 2.4.6. Untuk state 2, r = 1 dan δ(1,a) tidak fail untuk a = e. Karena f(1) = 0, make state diinisiasi dengan 0. δ(0, e)=0 sehingga f(2)=0. Hal yang sama berlaku untuk state 6 karena nilai δ(0, i) juga sama dengan 0 sehingga f(6)=0. Untuk state 4, terdapat sediit perbedaan. Sama seperti sebelumnya, untuk state 4, r = 3 dan δ(3,a) tidak fail untuk a = h. Karena f(3) = 0, maka akan dicari δ(0, h) dan didapatkan bahwa δ(0, h)=1 sehingga f(4)=1.  Perhitunggan tersebut terus dilakkan untuk state-state dengan kedalaman selanjutnya sehingga didapat failure function dari contoh diatas adalah </p>
+
+			<p> <img src="img/Tabel.png" alt="Tabel"></p>
+
+			<p> Failure function berguna untuk menggambarkan transisi dari dari setiap state ketika terjadi fail. Jika digambarkan, maka pattern machine yang kita miliki berubah menjadi: </p>
+
+			<p> <img src="img/AC2.png" alt="AC2" style="height:200px; width:400px"> </p>
+
+			<p> Jika telah memiliki pattern machine yang lengkap, maka proses kedua yaitu menggunakan string text sebagai input bisa dilakukan. State-state dimana L(state) membentuk pattern ditandai sebagai final state, sehingga statae 2, 5, 7, dan 9 merupakan final state. Untuk mendefinisikan seluruh output dari pattern machine dapat menggunakan output function yaitu out(u) = out(u) ∪ out(f(u)) . Persamaan ini berlaku karena pattern yang dikenali pada f(u) adalah proper suffix dari L(u) dan akan dikenali pada state u juga.</p>
+
+			<p> Pencarian string dimulai dari state awal yaitu state 0.  Kemudian untuk masing-masing input a karakter, telusuri transisi δ(state, a) yang digambarkan dengan garis lurus pada pattern matching, sampai fail ditemukan. Jika terjadi fail, ganti nilai state dengan f(state), kemudian kembali telusuri sampai seluruh karakter sudah habis ditelusuri. </p>
+
+			<p> Misalnya kita ingin mencari keyword yang terdapat pada kata “hishe”. Pertama–tama kita menelusuri dari state 0. Selanjutnya telusuri δ(0, h) = 1 sehingga sekarang kita berada di state 1. Dari state 1 kita berpindah ke state 6 karena δ(1, i) = 6  dan mendapatkan output “hi”. Karakter berikutnya dari input, “s” dengan state awal 6 menghasilkan state 7. Sampai tahap ini kita sudah berhasil menelusuri hingga kata “his” dan state sekarang sudah berada pada state 7.  Karena state 7 merupakan final state, maka keyword “his” dicatat sebagai keyword yang berhasil ditemukan dengan  index terakhir berada di karakter ke 3, dan index pertama berada di 3-3+1 = 1. Karena δ(7, h) menghasilkan fail, maka kita dapat memperhatikan fail function dari state 7. f(7) = 3, sehingga kita bisa langsung “melompat” ke state 3. Di state 3, kita melanjutkan menelusuri karakter berikutnya dari input string yang sebelumnya menghasilkan fail yaitu “h”. δ(3,h)=4 dan δ(4,e)=5. Pada state 5 kita sudah selesai mendapatkan L(u)=hishe yang artinya seluruh karakter pada text string sudah berhasil ditelusuri. Karena state 5 merupakan final state, maka keyword “she” ditemukan pada index terakhir berada di karakter ke 6, sehingga keyword tersebut secara spesifix dimulai pada karakter ke 6-3+1=4 pada string. Sehingga dari pencarian tersebut dapat disimpulkan bahwa keyword “his” ditemukan pada karakter ke-1 dan keyword “she” ditemukan pada karakter ke-4 pada text. Penelusuran string dari state satu ke state lainnya dengan masukan input “hishe” dapat digambarkan sebagai berikut:</p>
+
+			<p><img src="img/aho-corasick.jpg" alt="AC3" style="height:100px; width:500px"> </p>
+
+			<p>Algoritma dari proses string matching adalah sebagai berikut</p>
+
+			<p><img src="img/AC4.png" alt="AC4"></p>
+
+			<p>Algoritma Aho-Corasick sangat tepat diaplikasikan pada kasus dimana pencarian dilakukan untuk banyak keywords pada sebuah string yang panjang. Dengan Aho-Corasick, kita tidak perlu melakukan pencarian secara berulang-ulang, melainkan cukup melakukannya hanya dengan satu kali menelusuri pattern machine. Kompleksitas dari Aho-Corasick adalah O(n+m+z) dimana n adalah jumlah keyword, m adalah panjang string text, dan z adalah jumlah kemunculan keyword pada text. Algoritma Aho-Corasick dapat diaplikasikan dalam bioinformatics, mendeteksi plagiarism, digital forensic, dan text mining.</p>
+
+			<p> <div style="text-align:left; font-family:'Rockwell'; line-height: 1.5em;" > Sumber :
+				<br>Aho, Alfred V.; Corasick, Margaret J. (June 1975). "Efficient string matching: An aid to bibliographic search"
+				<br> Kilpelainen, Pekka. 2005. "Set Matching and Aho-Corasick Algorithm"
+			</div>
+			</p>
+
+
+	
+		</aside>
+	
+	</main>
+	
+
+</div>
+
+
+ <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    
+    <!--Other necessary scripts-->
+    <script src="js/jquery.jribbble-1.0.1.ugly.js"></script>
+    <script src="js/drifolio.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script>new WOW().init();</script>   
+
+</body>
+
+</html>
