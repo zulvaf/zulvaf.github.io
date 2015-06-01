@@ -14,15 +14,29 @@ body {
 	color : #23C10B;
 }
 
+a {
+  background-color: transparent;
+  color: #FFFFFF;
+}
+a:active,
+a:hover {
+  outline: 0;
+  color: #008000;
+
+}
+
 h2{font-size: 35px; font-style: bold; color: #FFFFFF; font-family: 'Papyrus'; text-align: right;}
 h3{font-size: 25px; font-style: bold; color: #eee ; font-family: 'Courier New'; text-align: right;}
 
 p{margin-bottom: 40px; font-size: 16px; color : #23C10B; text-align: center; font-family:'Rockwell'; line-height: 1.5em;}
 
 header {
-	line-height: 150em;
+	margin-top: 10%;
+	margin-left: 20%;
+	margin-right: 20%;
 	text-align: center;
-	background: #333;
+	background: #90EE90;
+	box-shadow: 15px 15px 15px #008000;
 }
 
 article {
@@ -50,6 +64,8 @@ footer {
 	background: #BBB;
 	
 }
+
+
 
 
 
